@@ -3,6 +3,7 @@
 import urllib
 import urllib2
 import base64
+from sets import Set
 
 from spinnerchief import exceptions as ex
 
@@ -13,6 +14,8 @@ class SpinnerChief(object):
     """
     URL = u'http://api.spinnerchief.com:9001/apikey=%s&username=%s&password=%s&'
     """URL for invoking the API"""
+
+    TIMEOUT = 10
 
     DEFAULT_PARAMS = {
         'protecthtml': '0',
@@ -41,6 +44,83 @@ class SpinnerChief(object):
 
     def __init__(self, apikey, username, password):
         self._url = self.URL % (apikey, username, password)
+
+    def _get_param_value(self, param_name, params):
+        """ Returns parameter value or use default.
+        """
+        if params.has_key(param_name):
+            return params[param_name]
+
+        elif self.DEFAULT_PARAMS.has_key(param_name):
+            return self.DEFAULT_PARAMS[param_name]
+
+        else:
+            raise ex.WrongParameterName(param_name)
+
+    def _value_has(self, param, values, params):
+        """ Raises WrongParameterVal if
+        value of param is not in values.
+        """
+        val = self._get_param_value(param, params)
+        if not val in values:
+            raise ex.WrongParameterVal(param, val)
+
+    def _value_is_int(self, param, params):
+        """ Raises WrongParameterVal if
+        value of param is not integer.
+        """
+        val = self._get_param_value(param, params)
+        try:
+            int(val)
+        except:
+            raise ex.WrongParameterVal(param, val)
+
+    def _validate(self, params):
+        """ Checks every single parameter and
+        raises error on wrong key or value.
+        """
+        self._value_has('protecthtml', ['0','1'], params)
+
+        self._value_has('usehurricane', ['0','1'], params)
+
+        self._value_has('spinhtml', ['0','1'], params)
+
+        self._value_has('percent', map(lambda x: str(x), range(0,101)), params)
+
+        self._value_has('phrasecount', ['2','3','4','X'], params)
+
+        self._value_has('Chartype', ['1','2','3'], params)
+
+        self._value_has('replacetype', map(lambda x: str(x), range(0,6)), params)
+
+        self._value_has('autospin', ['0', '1'], params)
+
+        self._value_has('convertbase', ['0', '1'], params)
+
+        self._value_has('pos', ['0', '1'], params)
+
+        self._value_has('Orderly', ['0', '1'], params)
+
+        self._value_is_int('Wordscount', params)
+
+        self._value_is_int('spinfreq', params)
+
+        # allow any combination of '[]','()','<-->'
+        val = self._get_param_value('tagprotect', params)
+        if Set(val.split(',')).difference(Set(['[]','()','<-->'])):
+            raise ex.WrongParameterVal('tagprotect', val)
+
+        self._value_has('spintype', ['0', '1'], params)
+
+        self._value_has('UseGrammarAI', ['0', '1'], params)
+
+        self._value_has('onecharforword', ['0', '1'], params)
+
+        self._value_has('wordquality', ['0', '1', '2', '3', '9'], params)
+
+        self._value_has('original', ['0', '1'], params)
+
+        return True
 
     def quota_used(self):
         """ The server returns today's used query times of this account.
@@ -93,7 +173,7 @@ class SpinnerChief(object):
         return self._send_request(text=text, params=params)
 
     def _send_request(self, text='', params=DEFAULT_PARAMS):
-        """ Invoke Spinner Chief API with given parameters and return its response .
+        """ Invoke Spinner Chief API with given parameters and return its response.
 
         :param params: parameters to pass along with the request
         :type params: dictionary
@@ -103,12 +183,19 @@ class SpinnerChief(object):
         """
 
         # remove entries with None value
-        temp = dict([(i,j) for i,j in params.iteritems() if j!=None])
+        for i,j in params.iteritems():
+            if j == None:
+                del(i)
 
-        urldata = self._url + urllib.urlencode(temp)
+        self._validate(params)
+
+        urldata = self._url + urllib.urlencode(params)
         base64text = base64.b64encode(text)
         req = urllib2.Request(urldata, data=base64text)
-        response = urllib2.urlopen(req)
+        try:
+            response = urllib2.urlopen(req, timeout=self.TIMEOUT)
+        except urllib2.URLError as e:
+            raise ex.NetworkError(str(e))
 
         result = base64.b64decode(response.read())
 

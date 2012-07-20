@@ -13,3 +13,25 @@ class SpinnerChiefError(Exception):
 class LoginError(SpinnerChiefError):
     def __str__(self):
         return self.api_error_msg
+
+class WrongParameterName(SpinnerChiefError):
+    def __init__(self, name):
+        self.name = name
+
+    def __str__(self):
+        return u"Parameter '%s' does not exist." % self.name
+
+class WrongParameterVal(SpinnerChiefError):
+    def __init__(self, name, val):
+        self.name = name
+        self.val = val
+
+    def __str__(self):
+        return u"Parameter '%s' has a wrong value: '%s'" % (self.name, self.val)
+
+class NetworkError(SpinnerChiefError):
+    def __init__(self, msg):
+        self.msg = msg
+
+    def __str__(self):
+        return self.msg
