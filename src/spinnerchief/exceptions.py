@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 class SpinnerChiefError(Exception):
     """Base class for exceptions in Spinner Chief module."""
     def __init__(self, api_error_msg):
@@ -10,9 +11,11 @@ class SpinnerChiefError(Exception):
     def __str__(self):
         return self.api_error_msg
 
+
 class LoginError(SpinnerChiefError):
     def __str__(self):
         return self.api_error_msg
+
 
 class WrongParameterName(SpinnerChiefError):
     def __init__(self, name):
@@ -21,6 +24,7 @@ class WrongParameterName(SpinnerChiefError):
     def __str__(self):
         return u"Parameter '%s' does not exist." % self.name
 
+
 class WrongParameterVal(SpinnerChiefError):
     def __init__(self, name, val):
         self.name = name
@@ -28,6 +32,7 @@ class WrongParameterVal(SpinnerChiefError):
 
     def __str__(self):
         return u"Parameter '%s' has a wrong value: '%s'" % (self.name, self.val)
+
 
 class NetworkError(SpinnerChiefError):
     def __init__(self, msg):

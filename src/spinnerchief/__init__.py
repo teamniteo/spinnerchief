@@ -48,10 +48,10 @@ class SpinnerChief(object):
     def _get_param_value(self, param_name, params):
         """ Returns parameter value or use default.
         """
-        if params.has_key(param_name):
+        if param_name in params:
             return params[param_name]
 
-        elif self.DEFAULT_PARAMS.has_key(param_name):
+        elif param_name in self.DEFAULT_PARAMS:
             return self.DEFAULT_PARAMS[param_name]
 
         else:
@@ -79,19 +79,19 @@ class SpinnerChief(object):
         """ Checks every single parameter and
         raises error on wrong key or value.
         """
-        self._value_has('protecthtml', ['0','1'], params)
+        self._value_has('protecthtml', ['0', '1'], params)
 
-        self._value_has('usehurricane', ['0','1'], params)
+        self._value_has('usehurricane', ['0', '1'], params)
 
-        self._value_has('spinhtml', ['0','1'], params)
+        self._value_has('spinhtml', ['0', '1'], params)
 
-        self._value_has('percent', map(lambda x: str(x), range(0,101)), params)
+        self._value_has('percent', map(lambda x: str(x), range(0, 101)), params)
 
-        self._value_has('phrasecount', ['2','3','4','X'], params)
+        self._value_has('phrasecount', ['2', '3', '4', 'X'], params)
 
-        self._value_has('Chartype', ['1','2','3'], params)
+        self._value_has('Chartype', ['1', '2', '3'], params)
 
-        self._value_has('replacetype', map(lambda x: str(x), range(0,6)), params)
+        self._value_has('replacetype', map(lambda x: str(x), range(0, 6)), params)
 
         self._value_has('autospin', ['0', '1'], params)
 
@@ -107,7 +107,7 @@ class SpinnerChief(object):
 
         # allow any combination of '[]','()','<-->'
         val = self._get_param_value('tagprotect', params)
-        if Set(val.split(',')).difference(Set(['[]','()','<-->'])):
+        if Set(val.split(',')).difference(Set(['[]', '()', '<-->'])):
             raise ex.WrongParameterVal('tagprotect', val)
 
         self._value_has('spintype', ['0', '1'], params)
@@ -146,7 +146,7 @@ class SpinnerChief(object):
         :rtype: string
         """
 
-        if params == None:
+        if params is None:
             params = self.DEFAULT_PARAMS
 
         params['spintype'] = '0'
@@ -165,7 +165,7 @@ class SpinnerChief(object):
         :rtype: string
         """
 
-        if params == None:
+        if params is None:
             params = self.DEFAULT_PARAMS
 
         params['spintype'] = '1'
@@ -183,8 +183,8 @@ class SpinnerChief(object):
         """
 
         # remove entries with None value
-        for i,j in params.iteritems():
-            if j == None:
+        for i, j in params.iteritems():
+            if j is None:
                 del(i)
 
         self._validate(params)
