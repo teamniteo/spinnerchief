@@ -54,11 +54,11 @@ Usage
     >>> import spinnerchief
     >>> sc = spinnerchief.SpinnerChief("<yourapikey>", "<yourusername>", "<yourpassword>")
 
-    >>> print sc.text_with_spintax(text="My name is Ovca!")
-    {I am|I'm|My friends call me|Throughout southern california|Im} Ovca!
+    >>> sc.text_with_spintax(text="My name is Ovca!")
+    "{I am|I'm|My friends call me|Throughout southern california|Im} Ovca!"
 
-    >>> print sc.unique_variation(text="My name is Ovca!")
-    Throughout southern california Ovca!
+    >>> sc.unique_variation(text="My name is Ovca!")
+    "Throughout southern california Ovca!"
 
     >>> print "used: %s" % sc.quota_used()
     used: 2
