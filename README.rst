@@ -31,6 +31,8 @@ Install within virtualenv
 Buildout
 ========
 
+.. code::
+
     $ git clone https://github.com/niteoweb/spinnerchief
     $ cd spinnerchief
     $ wget http://svn.zope.org/*checkout*/zc.buildout/branches/2/bootstrap/bootstrap.py
@@ -46,6 +48,8 @@ Buildout
 
 Usage
 =====
+
+.. sourcecode:: python
 
     >>> import spinnerchief
     >>> sc = spinnerchief.SpinnerChief("<yourapikey>", "<yourusername>", "<yourpassword>")
