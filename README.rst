@@ -16,6 +16,8 @@ a `developer account <http://developer.spinnerchief.com/>`_.
 Install within virtualenv
 =========================
 
+.. code::
+
     $ virtualenv foo
     $ cd foo
     $ git clone https://github.com/niteoweb/spinnerchief
