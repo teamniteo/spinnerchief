@@ -13,7 +13,7 @@ def read(*rnames):
 version = read('src', 'spinnerchief', 'version.txt').strip()
 
 long_description = \
-    read('README.md') + \
+    read('README.rst') + \
     read('docs', 'HISTORY.rst') + \
     read('docs', 'LICENSE.rst')
 
