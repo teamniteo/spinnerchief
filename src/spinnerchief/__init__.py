@@ -12,7 +12,7 @@ class SpinnerChief(object):
     """A class representing the Spinner Chief API
     (http://developer.spinnerchief.com/API_Document.aspx).
     """
-    URL = u'http://api.spinnerchief.com:9001/apikey=%s&username=%s&password=%s&'
+    URL = u'http://api.spinnerchief.com:9001/apikey={apikey}&username={username}&password={password}&'
     """URL for invoking the API"""
 
     TIMEOUT = 10
@@ -43,7 +43,7 @@ class SpinnerChief(object):
     }
 
     def __init__(self, apikey, username, password):
-        self._url = self.URL % (apikey, username, password)
+        self._url = self.URL.format(apikey=apikey, username=username, password=password)
 
     def _get_param_value(self, param_name, params):
         """ Returns parameter value or use default.
