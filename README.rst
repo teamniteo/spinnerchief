@@ -58,7 +58,7 @@ Usage
     "{I am|I'm|My friends call me|Throughout southern california|Im} Ovca!"
 
     >>> sc.unique_variation(text="My name is Ovca!")
-    "Throughout southern california Ovca!"
+    "Im Ovca!"
 
     >>> print "used: %s" % sc.quota_used()
     used: 2

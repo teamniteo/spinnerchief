@@ -13,28 +13,32 @@ class SpinnerChiefError(Exception):
 
 
 class LoginError(SpinnerChiefError):
+    """Raised if there are login errors."""
     def __str__(self):
         return self.api_error_msg
 
 
 class WrongParameterName(SpinnerChiefError):
+    """Raised on unsuppported parameter name."""
     def __init__(self, name):
         self.name = name
 
     def __str__(self):
-        return u"Parameter '%s' does not exist." % self.name
+        return u"Parameter '{}' does not exist.".format(self.name)
 
 
 class WrongParameterVal(SpinnerChiefError):
+    """Raised on invalid parameter value."""
     def __init__(self, name, val):
         self.name = name
         self.val = val
 
     def __str__(self):
-        return u"Parameter '%s' has a wrong value: '%s'" % (self.name, self.val)
+        return u"Parameter '{}' has a wrong value: '{}'".format(self.name, self.val)
 
 
 class NetworkError(SpinnerChiefError):
+    """Raised if there are network problems, like timeout."""
     def __init__(self, msg):
         self.msg = msg
 

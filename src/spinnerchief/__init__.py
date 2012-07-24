@@ -58,7 +58,7 @@ class SpinnerChief(object):
             raise ex.WrongParameterName(param_name)
 
     def _value_has(self, param, values, params):
-        """ Raises WrongParameterVal if
+        """ Raise WrongParameterVal if
         value of param is not in values.
         """
         val = self._get_param_value(param, params)
@@ -66,19 +66,24 @@ class SpinnerChief(object):
             raise ex.WrongParameterVal(param, val)
 
     def _value_is_int(self, param, params):
-        """ Raises WrongParameterVal if
+        """ Raise WrongParameterVal if
         value of param is not integer.
         """
         val = self._get_param_value(param, params)
         try:
             int(val)
-        except:
+        except ValueError:
             raise ex.WrongParameterVal(param, val)
 
     def _validate(self, params):
         """ Checks every single parameter and
-        raises error on wrong key or value.
+        raise error on wrong key or value.
         """
+        # remove entries with None value
+        for i, j in params.iteritems():
+            if j is None:
+                del(i)
+
         self._value_has('protecthtml', ['0', '1'], params)
 
         self._value_has('usehurricane', ['0', '1'], params)
@@ -148,6 +153,8 @@ class SpinnerChief(object):
 
         if params is None:
             params = self.DEFAULT_PARAMS
+        else:
+            self._validate(params)
 
         params['spintype'] = '0'
 
@@ -167,6 +174,8 @@ class SpinnerChief(object):
 
         if params is None:
             params = self.DEFAULT_PARAMS
+        else:
+            self._validate(params)
 
         params['spintype'] = '1'
 
@@ -181,13 +190,6 @@ class SpinnerChief(object):
         :return: API's response (article)
         :rtype: string
         """
-
-        # remove entries with None value
-        for i, j in params.iteritems():
-            if j is None:
-                del(i)
-
-        self._validate(params)
 
         urldata = self._url + urllib.urlencode(params)
         base64text = base64.b64encode(text)
