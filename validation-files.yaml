@@ -25,3 +25,4 @@ tabs: |
 pep8: |
   *.py
   !bootstrap.py
+  !docs/conf.py
