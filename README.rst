@@ -1,6 +1,6 @@
-====================================
+=====================================
 Python bindings for SpinnerChief API.
-====================================
+=====================================
 
 `Spinner Chief <http://www.spinnerchief.com/>`_ is an online
 service for spinning text (synonym substitution) that creates unique version(s)
@@ -35,7 +35,6 @@ Buildout
 
     $ git clone https://github.com/niteoweb/spinnerchief
     $ cd spinnerchief
-    $ wget http://svn.zope.org/*checkout*/zc.buildout/branches/2/bootstrap/bootstrap.py
     $ python bootstrap.py
     $ bin/buildout
 
