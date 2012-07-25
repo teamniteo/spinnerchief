@@ -7,3 +7,4 @@ Changelog
 - SpinnerChief class.
 - Tests and documentation.
   [Matej Cotman]
+
