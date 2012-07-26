@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import base64
-import sys
 from spinnerchief import SpinnerChief
 
 import unittest2 as unittest
