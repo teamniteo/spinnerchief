@@ -11,6 +11,8 @@ from spinnerchief import exceptions as ex
 class SpinnerChief(object):
     """A class representing the Spinner Chief API
     (http://developer.spinnerchief.com/API_Document.aspx).
+
+    Articles must be in Unicode object type.
     """
     URL = u'http://api.spinnerchief.com:9001/apikey={apikey}&username={username}&password={password}&'
     """URL for invoking the API"""
@@ -192,14 +194,14 @@ class SpinnerChief(object):
         """
 
         urldata = self._url + urllib.urlencode(params)
-        base64text = base64.b64encode(text)
+        base64text = base64.b64encode(text.encode("utf-8"))
         req = urllib2.Request(urldata, data=base64text)
         try:
             response = urllib2.urlopen(req, timeout=self.TIMEOUT)
         except urllib2.URLError as e:
             raise ex.NetworkError(str(e))
 
-        result = base64.b64decode(response.read())
+        result = base64.b64decode(response.read()).decode("utf-8")
 
         if result.lower().startswith('error='):
             self._raise_error(result[6:])

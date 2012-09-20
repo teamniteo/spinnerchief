@@ -34,24 +34,26 @@ class TestApi(unittest.TestCase):
     def test_unique_variation_default_call(self, urllib2):
         """Test call of unique_variation() with default values."""
         # mock response from SpinnerChief
-        mocked_response = base64.b64encode(u'This is my pet.')
+        mocked_response = base64.b64encode(u'This is my petž.'.encode("utf-8"))
         urllib2.urlopen.return_value.read.return_value = mocked_response
 
         # test call
         self.assertEquals(
-            self.sc.unique_variation('This is my dog.'),
-            'This is my pet.',
+            self.sc.unique_variation(u'This is my dogž.'),
+            u'This is my petž.',
         )
 
     @mock.patch('spinnerchief.urllib2')
     def test_text_with_spintax_default_call(self, urllib2):
         """Test call of text_with_spintax_call() with default values."""
         # mock response from SpinnerChief
-        mocked_response = base64.b64encode(u'This is my {dog|pet|animal}.')
+        mocked_response = base64.b64encode(
+            u'This is my {dog|pet|animal}ž.'.encode("utf-8")
+        )
         urllib2.urlopen.return_value.read.return_value = mocked_response
 
         # test call
         self.assertEquals(
-            self.sc.text_with_spintax('This is my dog.'),
-            'This is my {dog|pet|animal}.',
+            self.sc.text_with_spintax(u'This is my dogž.'),
+            u'This is my {dog|pet|animal}ž.',
         )
