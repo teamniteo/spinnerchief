@@ -4,7 +4,7 @@
 class SpinnerChiefError(Exception):
     """Base class for exceptions in Spinner Chief module."""
     def __init__(self, api_error_msg):
-        #api_error_msg respresents raw error string as returned by API server
+        # api_error_msg respresents raw error string as returned by API server
         super(SpinnerChiefError, self).__init__()
         self.api_error_msg = api_error_msg
 

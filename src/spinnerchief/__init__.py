@@ -64,7 +64,7 @@ class SpinnerChief(object):
         value of param is not in values.
         """
         val = self._get_param_value(param, params)
-        if not val in values:
+        if val not in values:
             raise ex.WrongParameterVal(param, val)
 
     def _value_is_int(self, param, params):
